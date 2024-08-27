@@ -1,0 +1,167 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart - Cafe Corner</title>
+    <style>
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* Body Styling */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f4f4;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        /* Header and Menu Styling */
+        header {
+            background-color: #333;
+            padding: 20px 0;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .menu {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .menu li {
+            margin: 0 15px;
+        }
+
+        .menu a {
+            color: #fff;
+            text-decoration: none;
+            padding: 12px 20px;
+            background-color: #555;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.3s;
+            font-size: 1em;
+            text-transform: uppercase;
+        }
+
+        .menu a.cart {
+            background-color: #f4a261;
+        }
+
+        .menu a:hover {
+            background-color: #777;
+            transform: scale(1.05);
+        }
+
+        /* Cart Section Styling */
+        .cart-section {
+            padding: 20px;
+        }
+
+        .cart-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            background-color: #fff;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .cart-table th, .cart-table td {
+            padding: 15px;
+            text-align: center;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .cart-table th {
+            background-color: #f4a261;
+            color: #fff;
+        }
+
+        .cart-table td button {
+            padding: 8px 12px;
+            border: none;
+            color: #fff;
+            cursor: pointer;
+            font-size: 1em;
+            transition: background-color 0.3s;
+        }
+
+        .cart-table td button.subtract {
+            background-color: #e76f51;
+        }
+
+        .cart-table td button.add {
+            background-color: #4caf50;
+        }
+
+        .cart-table td button.delete {
+            background-color: #f44336;
+        }
+
+        .cart-table td button:hover {
+            opacity: 0.8;
+        }
+
+        .quantity-field {
+            width: 60px;
+            padding: 5px;
+            text-align: center;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 1em;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <nav>
+            <ul class="menu">
+                <li><a href="../">Menu</a></li>
+                <li><a href="../about/">About Us</a></li>
+                <li><a href="../contact/">Contact</a></li>
+                <li><a href="../cart/" class="cart">Cart</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Cart Section -->
+    <section class="cart-section">
+        <h1>Cart</h1>
+        <table class="cart-table">
+            <thead>
+                <tr>
+                    <th>Item No</th>
+                    <th>Item Name</th>
+                    <th>Delete</th>
+                    <th>Price</th>
+                    <th>Subtract Quantity</th>
+                    <th>Quantity</th>
+                    <th>Add Quantity</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for cart_item in cart_items %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ cart_item.dish.name }}</td>
+                    <td><a href="{% url 'update_cart' cart_item.id 'delete' %}"><button class="delete">Delete</button></a></td>
+                    <td>{{cart_item.dish.price}}</td>
+                    <td><a href="{% url 'update_cart' cart_item.id 'subtract' %}"><button class="subtract">-</button></a></td>
+                    <td><input type="text" class="quantity-field" value="{{ cart_item.quantity }}" readonly></td>
+                    <td><a href="{% url 'update_cart' cart_item.id 'add' %}"><button class="add">+</button></a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    
+
+</body>
+</html>
